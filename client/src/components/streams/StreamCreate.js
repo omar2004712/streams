@@ -2,8 +2,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { createStream } from '../../actions/index';
 
-function StreamCreate({ handleSubmit }) {
+// eslint-disable-next-line no-shadow
+function StreamCreate({ handleSubmit, createStream }) {
   const renderError = (meta) => {
     const { error, touched } = meta;
     if (touched && error) {
@@ -26,7 +29,7 @@ function StreamCreate({ handleSubmit }) {
   );
 
   const onSubmit = (formValues) => {
-    console.log(formValues);
+    createStream(formValues);
   };
 
   return (
@@ -58,7 +61,9 @@ const validate = (formValues) => {
   return errors;
 };
 
-export default reduxForm({
+const formWrapped = reduxForm({
   form: 'streamCreate',
   validate,
 })(StreamCreate);
+
+export default connect(null, { createStream })(formWrapped);
