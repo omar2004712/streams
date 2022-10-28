@@ -4,6 +4,14 @@
       "title": "new stream",
       "description": "current stream",
       "id": 1
+    },
+    {
+      "title": "new stream",
+      "description": "This is a new stream",
+      "userId": {
+        "userId": "103225374880151558785"
+      },
+      "id": 2
     }
   ]
 }

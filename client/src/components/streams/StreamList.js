@@ -3,10 +3,17 @@ import { connect } from 'react-redux';
 import { fetchStreams } from '../../actions';
 
 // eslint-disable-next-line no-shadow
-function StreamList({ fetchStreams, streams }) {
+function StreamList({ fetchStreams, streams, currentUserId }) {
   useEffect(() => {
     fetchStreams();
   }, []);
+
+  const renderAdmin = (stream) => {
+    if (stream.userId === currentUserId) {
+      return <div>buttons</div>;
+    }
+    return null;
+  };
 
   const renderList = () =>
     // eslint-disable-next-line implicit-arrow-linebreak
@@ -17,6 +24,7 @@ function StreamList({ fetchStreams, streams }) {
           {stream.title}
           <div className="description">{stream.description}</div>
         </div>
+        {renderAdmin(stream)}
       </div>
     ));
 
@@ -28,6 +36,9 @@ function StreamList({ fetchStreams, streams }) {
   );
 }
 
-const mapStateToProps = (state) => ({ streams: Object.values(state.streams) });
+const mapStateToProps = (state) => ({
+  streams: Object.values(state.streams),
+  currentUserId: state.auth.userId,
+});
 
 export default connect(mapStateToProps, { fetchStreams })(StreamList);
