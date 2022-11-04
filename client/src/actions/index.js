@@ -13,12 +13,14 @@ export const signIn = (userId) => ({ type: SIGN_IN, payload: userId });
 
 export const signOut = () => ({ type: SIGN_OUT });
 
-export const createStream = (formValues) => async (dispatch, getState) => {
-  const { userId } = getState().auth;
-  const response = await streams.post('/streams', { ...formValues, userId });
+export const createStream =
+  (formValues, history) => async (dispatch, getState) => {
+    const { userId } = getState().auth;
+    const response = await streams.post('/streams', { ...formValues, userId });
 
-  dispatch({ type: CREATE_STREAM, payload: response.data });
-};
+    dispatch({ type: CREATE_STREAM, payload: response.data });
+    history.push('/');
+  };
 
 export const fetchStreams = () => async (dispatch) => {
   const response = await streams.get('/streams');
