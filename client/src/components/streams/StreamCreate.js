@@ -3,33 +3,37 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { createStream } from '../../actions/index';
+
+// to avoid redefining the function every time the component rerenders
+const renderInput = ({ input, label, meta }) => (
+  <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
+    <label>{label}</label>
+    <input type="text" {...input} />
+    {renderError(meta)}
+  </div>
+);
+
+const renderError = (meta) => {
+  const { error, touched } = meta;
+  if (touched && error) {
+    return (
+      <div className="ui error message">
+        <div className="header">{error}</div>
+      </div>
+    );
+  }
+
+  return <div />;
+};
 
 // eslint-disable-next-line no-shadow
 function StreamCreate({ handleSubmit, createStream }) {
-  const renderError = (meta) => {
-    const { error, touched } = meta;
-    if (touched && error) {
-      return (
-        <div className="ui error message">
-          <div className="header">{error}</div>
-        </div>
-      );
-    }
-
-    return <div />;
-  };
-
-  const renderInput = ({ input, label, meta }) => (
-    <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
-      <label>{label}</label>
-      <input type="text" {...input} />
-      {renderError(meta)}
-    </div>
-  );
+  const history = useHistory();
 
   const onSubmit = (formValues) => {
-    createStream(formValues);
+    createStream(formValues, history);
   };
 
   return (
