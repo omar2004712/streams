@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { useHistory } from 'react-router-dom';
 
 // to avoid redefining the function every time the component rerenders
 const renderInput = ({ input, label, meta }) => (
