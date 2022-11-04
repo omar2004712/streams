@@ -14,9 +14,9 @@ function StreamList({ fetchStreams, streams, currentUserId, isSignedIn }) {
     if (stream.userId === currentUserId) {
       return (
         <div className="right floated content">
-          <button type="button" className="ui button primary">
+          <Link to={`/streams/edit/${stream.id}`} className="ui button primary">
             Edit
-          </button>
+          </Link>
           <button type="button" className="ui button negative">
             Delete
           </button>
