@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "lerna": "^6.0.3"
+  },
+  "name": "streams",
+  "workspaces": [
+    "packages/*"
+  ]
+}
