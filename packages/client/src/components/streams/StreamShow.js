@@ -20,6 +20,10 @@ function StreamShow({ match, fetchStream, stream }) {
 
     flvPlayer.attachMediaElement(videoRef.current);
     flvPlayer.load();
+
+    return () => {
+      flvPlayer.destroy();
+    };
   }, []);
 
   const renderStream = () => {
