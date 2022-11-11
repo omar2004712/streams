@@ -1,23 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { connect } from 'react-redux';
+import flv from 'flv.js';
 import { fetchStream } from '../../actions';
 
 function StreamShow({ match, fetchStream, stream }) {
+  const videoRef = useRef();
+
   useEffect(() => {
+    const { id } = match.params;
+
     if (!stream) {
-      fetchStream(match.params.id);
+      fetchStream(id);
     }
+
+    const flvPlayer = flv.createPlayer({
+      type: 'flv',
+      url: `http://localhost:8000/live/${id}.flv`,
+    });
+
+    flvPlayer.attachMediaElement(videoRef.current);
+    flvPlayer.load();
   }, []);
 
   const renderStream = () => {
-    if (!stream) {
-      return <div>Loading...</div>;
-    }
-
     return (
       <div>
-        <h1>{stream.title}</h1>
-        <h5>{stream.description}</h5>
+        <video ref={videoRef} style={{ width: '100%' }} controls />
+        {stream ? (
+          <>
+            <h1>{stream.title}</h1>
+            <h5>{stream.description}</h5>
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
     );
   };
